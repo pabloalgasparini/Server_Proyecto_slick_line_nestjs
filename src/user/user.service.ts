@@ -31,8 +31,9 @@ export class UserService {
     return operario
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  update(_id: string, updateUserDto: UpdateUserDto) {
+    const user = this.userModel.findByIdAndUpdate(_id, updateUserDto);  
+    return user;
   }
 
   remove(id: number) {

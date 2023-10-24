@@ -22,9 +22,9 @@ export class UserController {
    return this.userService.findOperararioToAdmin(_id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @Patch(':_id')
+  update(@Param('_id') _id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(_id, updateUserDto);
   }
 
   @Delete(':id')
