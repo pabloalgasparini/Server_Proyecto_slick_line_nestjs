@@ -10,6 +10,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { CheckDuplicateUsernameOrEmailMiddleware} from './middlewares/middlewares.middleware'
 import { User, UserDocument } from './user/user.schema';
 import { Model } from 'mongoose';
+import { DatosModule } from './datos/datos.module';
+import { PozosModule } from './pozos/pozos.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { Model } from 'mongoose';
       secret: 'fernet',
       signOptions: { expiresIn: '1h' },
     }),
+    DatosModule,
+    PozosModule,
   ],
   controllers: [AppController],
   providers: [AppService, RolesService],

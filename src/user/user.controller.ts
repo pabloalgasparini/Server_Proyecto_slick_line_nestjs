@@ -12,23 +12,33 @@ export class UserController {
   //   return this.userService.create(createUserDto);
   // }
 
+  @Get('todos')
+  traerTodos(){
+    return this.userService.findAllActive();
+  }
+
   @Get('operarios')
   findAllOperario() {
     return this.userService.findAllOperario();
   }
 
-  @Put(':_id')
+  @Put('actualizarOperario/:_id')
   findOne(@Param('_id') _id: string) {
    return this.userService.findOperararioToAdmin(_id);
   }
 
-  @Patch(':_id')
+  @Put('actualizarAdmin/:_id')
+  findAllAdmin(@Param('_id') _id: string) {
+    return this.userService.findAdminToOperario(_id);
+  }
+
+  @Patch('actualizar/:_id')
   update(@Param('_id') _id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(_id, updateUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @Delete('remover/:_id')
+  remove(@Param('_id') _id: string) {
+    return this.userService.remove(_id);
   }
 }

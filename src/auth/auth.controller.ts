@@ -16,4 +16,5 @@ export class AuthController {
   async signIn(@Body() body: { email: string; password: string}) {
     return this.authService.signIn(body.email, body.password);
   }
+
 }

@@ -9,19 +9,50 @@ import { Role, RoleDocument } from 'src/roles/entities/roles.entity';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>,
               @InjectModel(Role.name) private roleModel: Model<RoleDocument>) { }
+
+  async findAllActive(){
+    try {
+      const users = this.userModel.find({isActive: true});
+      console.log('Estos son todos los usuarios');
+      return users
+
+    } catch (error) {
+      console.log('Error al traer los usuarios', error);
+    }
+   
+  }
   
   async findAllOperario() {
     //operarioId = await this.
-    const operarios = await this.userModel.find().populate('roles')
+    try {
+      const operarios = await this.userModel.find().populate('roles')
     
     const nuevos = operarios.filter(operario => operario.roles[0].name === "operario")
     console.log({operarios})
     return nuevos;
+    } catch (error) {
+      console.log('Error al traer operarios', error);
+    }
+  }
+
+  async findAdminToOperario(_id: string) {
+    try {
+      const operario = await this.userModel.findById(_id).populate('roles')
+    
+      const roleOperario= await this.roleModel.find({name: 'operario'})
+      if(operario){
+        operario.roles[0]._id = roleOperario[0]._id
+        operario.roles[0].name = roleOperario[0].name
+      }
+      return operario
+    } catch (error) {
+      console.log('Error al actualizar roles', error);
+    }
   }
 
   async findOperararioToAdmin(_id: string) {
-
-    const operario = await this.userModel.findById(_id).populate('roles')
+    try {
+      const operario = await this.userModel.findById(_id).populate('roles')
     
     const roleAdmin= await this.roleModel.find({name: 'admin'})
     if(operario){
@@ -29,15 +60,28 @@ export class UserService {
       operario.roles[0].name = roleAdmin[0].name
     }
     return operario
+    } catch (error) {
+      console.log('Error al hacer la operación', error);
+    }
+    
   }
 
   update(_id: string, updateUserDto: UpdateUserDto) {
-    const user = this.userModel.findByIdAndUpdate(_id, updateUserDto);  
+    try {
+      const user = this.userModel.findByIdAndUpdate(_id, updateUserDto);  
     return user;
+    } catch (error) {
+      console.log('Error al actualizar usuario', error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  remove(_id: string) {
+    try {
+      const user = this.userModel.findByIdAndUpdate(_id, {isActive: false});
+    return user
+    } catch (error) {
+      console.log('Error al remover usuario', error);
+    }
   }
 
   async checkUniqueEmailAndUsername ({username, email}) {
