@@ -66,7 +66,7 @@ export class UserService {
     
   }
 
-  update(_id: string, updateUserDto: UpdateUserDto) {
+ async update(_id: string, updateUserDto: UpdateUserDto) {
     try {
       const user = this.userModel.findByIdAndUpdate(_id, updateUserDto);  
     return user;
@@ -75,7 +75,7 @@ export class UserService {
     }
   }
 
-  remove(_id: string) {
+ async remove(_id: string) {
     try {
       const user = this.userModel.findByIdAndUpdate(_id, {isActive: false});
     return user

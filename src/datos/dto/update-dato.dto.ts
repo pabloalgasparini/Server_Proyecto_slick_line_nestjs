@@ -5,7 +5,6 @@ import { ObjectId } from 'mongoose';
 
 export class UpdateDatoDto extends PartialType(CreateDatoDto) {
     @IsNotEmpty()
-    @IsTimeZone()
     Time?: number
 
     @IsNotEmpty()

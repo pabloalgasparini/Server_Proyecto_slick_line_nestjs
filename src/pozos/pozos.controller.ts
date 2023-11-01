@@ -17,18 +17,18 @@ export class PozosController {
     return this.pozosService.findAll();
   }
 
-  @Get(':id')
+  @Get('unpozo/:id')
   findOne(@Param('id') id: string) {
-    return this.pozosService.findOne(+id);
+    return this.pozosService.findOne(id);
   }
 
-  @Patch(':id')
+  @Patch('actualizar/:id')
   update(@Param('id') id: string, @Body() updatePozoDto: UpdatePozoDto) {
-    return this.pozosService.update(+id, updatePozoDto);
+    return this.pozosService.update(id, updatePozoDto);
   }
 
-  @Delete(':id')
+  @Delete('remove/:id')
   remove(@Param('id') id: string) {
-    return this.pozosService.remove(+id);
+    return this.pozosService.remove(id);
   }
 }

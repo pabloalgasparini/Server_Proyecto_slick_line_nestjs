@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsObject, IsString } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsObject, IsString, isBoolean } from "class-validator";
 import { ObjectId } from "mongoose";
 
 export class CreatePozoDto {
@@ -9,5 +9,8 @@ export class CreatePozoDto {
    // @IsObject()
    @IsString()
     @IsNotEmpty()
-    User: string;
+    Users: string;
+
+    @IsBoolean()
+    isActive: boolean;
 }

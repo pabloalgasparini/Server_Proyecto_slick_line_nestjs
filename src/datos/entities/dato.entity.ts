@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { UserDocument } from 'src/user/user.schema';
 import { PozoDocument } from 'src/pozos/entities/pozo.entity';
 
@@ -28,11 +28,14 @@ export class Datos {
     @Prop({unique: true, required: true})
     Dt_Dz: number
 
-    @Prop([{type:{type: 'ObjectId', ref: 'Pozo'}}])
-    Pozo: PozoDocument[]
+    @Prop({unique: true, required: true})
+    Description: string
 
-    @Prop([{type: {type: 'ObjectId', ref: 'User'}}])
-    User: UserDocument[]
+    @Prop([{ type: [{type: 'ObjectId', ref: 'Pozo'}] }])
+    Pozo: PozoDocument[]; 
+
+    @Prop([{ type: Types.ObjectId, ref: 'User' }])
+    User: UserDocument[]; 
 }
 
 export const DatosSchema = SchemaFactory.createForClass(Datos);

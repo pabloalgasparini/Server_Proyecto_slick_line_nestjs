@@ -6,11 +6,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from 'src/user/user.schema';
 import { PozosModule } from 'src/pozos/pozos.module';
 import { PozoSchema } from 'src/pozos/entities/pozo.entity';
+import { DatosSchema } from './entities/dato.entity';
 
 @Module({
-  imports: [UserModule,PozosModule, MongooseModule.forFeature([
+  imports: [MongooseModule.forFeature([
+    { name: 'Datos', schema: DatosSchema },
     { name: 'User', schema: UserSchema },
-    { name: 'Pozos', schema: PozoSchema},
+    { name: 'Pozo', schema: PozoSchema}
   ])],
   controllers: [DatosController],
   providers: [DatosService],

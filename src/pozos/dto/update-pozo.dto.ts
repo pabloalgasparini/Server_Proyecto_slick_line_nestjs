@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreatePozoDto } from './create-pozo.dto';
-import { IsNotEmpty, IsObject, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsObject, IsString } from 'class-validator';
 import { ObjectId } from 'mongoose';
 
 export class UpdatePozoDto extends PartialType(CreatePozoDto) {
@@ -8,8 +8,11 @@ export class UpdatePozoDto extends PartialType(CreatePozoDto) {
     @IsNotEmpty()
     Pozoname?: string;
 
-    //@IsObject()
     @IsString()
     @IsNotEmpty()
-    User?: string;
+    Users?: string;
+
+    @IsBoolean()
+    isActive?: boolean;
 }
+

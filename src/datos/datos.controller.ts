@@ -7,28 +7,47 @@ import { UpdateDatoDto } from './dto/update-dato.dto';
 export class DatosController {
   constructor(private readonly datosService: DatosService) {}
 
-  @Post()
-  create(@Body() createDatoDto: CreateDatoDto) {
-    return this.datosService.create(createDatoDto);
+  @Post('create/:userId/:pozoId')
+  create(@Param('userId') userId: string,@Param('pozoId') pozoId: string, @Body() 
+  body: {
+    Time : number, 
+    Pressure: number, 
+    Temperature: number,
+    Depth: number,
+    Dp_Dz: number,
+    Dt_Dz: number,
+    Description: string
+  }) {
+   return this.datosService.create(
+    userId, 
+    pozoId,
+    body.Time,
+    body.Pressure,
+    body.Temperature,
+    body.Depth,
+    body.Dp_Dz,
+    body.Dt_Dz,
+    body.Description
+    )
   }
 
-  @Get()
+  @Get('findAll')
   findAll() {
     return this.datosService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.datosService.findOne(+id);
+  @Get('datosPozo/:pozoId')
+  findOne(@Param('pozoId') pozoId: string) {
+    return this.datosService.findOne(pozoId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDatoDto: UpdateDatoDto) {
-    return this.datosService.update(+id, updateDatoDto);
+  @Patch('actualizar/:idDatos')
+  update(@Param('idDatos') idDatos: string, @Body() updateDatoDto: UpdateDatoDto) {
+    return this.datosService.update(idDatos, updateDatoDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.datosService.remove(+id);
+  @Delete('remove/:idDatos')
+  remove(@Param('idDatos') idDatos: string) {
+    return this.datosService.remove(idDatos);
   }
 }
