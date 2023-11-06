@@ -10,10 +10,10 @@ import { PozoDocument } from 'src/pozos/entities/pozo.entity';
   })
 
 export class Datos {
-    @Prop({unique: true, required: true})
+    @Prop({required: true})
     Time: number
 
-    @Prop({unique: true, required: true})
+    @Prop({required: true})
     Pressure: number
 
     @Prop({unique: true, required: true})

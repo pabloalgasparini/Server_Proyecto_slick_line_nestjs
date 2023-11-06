@@ -13,10 +13,10 @@ export class PozosService {
         @InjectModel('Pozo') private pozoModel: Model<PozoDocument>,
     ) {}
 
-    async create(_id: string, name: string) {
+    async create(userId: string, name: string) {
       try {
           const newPozo = new this.pozoModel();
-          const user = await this.userModel.findById(_id);
+          const user = await this.userModel.findById(userId);
           
           if (user) {
               newPozo.Pozoname = name;

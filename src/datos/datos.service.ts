@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateDatoDto } from './dto/create-dato.dto';
 import { UpdateDatoDto } from './dto/update-dato.dto';
 import { UserDocument } from 'src/user/user.schema';

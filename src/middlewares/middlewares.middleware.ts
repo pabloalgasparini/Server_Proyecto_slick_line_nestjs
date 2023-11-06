@@ -42,7 +42,7 @@ export class TokenMiddleware implements NestMiddleware {
 
       req.userId = decoded.id;
 
-      const user = await this.userModel.findById(req.userId).select('-password');
+      const user = await this.userModel.findById(req.userId).select('password');
 
       if (!user) {
         return res.status(404).json({ message: 'El usuario no existe' });

@@ -7,9 +7,9 @@ import { UpdatePozoDto } from './dto/update-pozo.dto';
 export class PozosController {
   constructor(private readonly pozosService: PozosService) {}
 
-  @Post('nuevo/:_id')
-  create(@Param('_id')_id:string,@Body() body:{name:string}) {
-    return this.pozosService.create(_id,body.name);
+  @Post('nuevo/:userId')
+  create(@Param('userId')userId:string,@Body() body:{name:string}) {
+    return this.pozosService.create(userId,body.name);
   }
 
   @Get('all')
