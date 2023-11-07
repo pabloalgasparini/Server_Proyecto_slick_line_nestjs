@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './user.schema';
 import { InjectModel } from '@nestjs/mongoose';
@@ -99,6 +98,19 @@ export class UserService {
 
     } catch (error) {
       return console.log(error);
+    }
+  }
+
+  async findUser (userId: string){
+    try {
+      const user = await this.userModel.findById(userId).populate("roles");
+
+      if(!user) return null
+
+      return user
+
+    } catch (error) {
+      return null
     }
   }
 }

@@ -1,33 +1,39 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { PozosService } from './pozos.service';
-import { CreatePozoDto } from './dto/create-pozo.dto';
 import { UpdatePozoDto } from './dto/update-pozo.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { IsAdminGuard } from 'src/auth/is-admin.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('pozos')
 export class PozosController {
   constructor(private readonly pozosService: PozosService) {}
 
-  @Post('nuevo/:userId')
+  @UseGuards(IsAdminGuard)
+  @Post(':userId')
   create(@Param('userId')userId:string,@Body() body:{name:string}) {
     return this.pozosService.create(userId,body.name);
   }
 
-  @Get('all')
+  
+  @Get('')
   findAll() {
+
     return this.pozosService.findAll();
   }
 
-  @Get('unpozo/:id')
+  @Get(':id')
   findOne(@Param('id') id: string) {
     return this.pozosService.findOne(id);
   }
 
-  @Patch('actualizar/:id')
+  @UseGuards(IsAdminGuard)
+  @Patch(':id')
   update(@Param('id') id: string, @Body() updatePozoDto: UpdatePozoDto) {
     return this.pozosService.update(id, updatePozoDto);
   }
 
-  @Delete('remove/:id')
+  @Delete(':id')
   remove(@Param('id') id: string) {
     return this.pozosService.remove(id);
   }

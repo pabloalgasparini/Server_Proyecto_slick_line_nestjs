@@ -1,12 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { DatosService } from './datos.service';
-import { CreateDatoDto } from './dto/create-dato.dto';
 import { UpdateDatoDto } from './dto/update-dato.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { IsAdminGuard } from 'src/auth/is-admin.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('datos')
 export class DatosController {
   constructor(private readonly datosService: DatosService) {}
-
+  
+  @UseGuards(IsAdminGuard)
   @Post('create/:userId/:pozoId')
   create(@Param('userId') userId: string,@Param('pozoId') pozoId: string, @Body() 
   body: {
@@ -41,11 +44,13 @@ export class DatosController {
     return this.datosService.findOne(pozoId);
   }
 
+  @UseGuards(IsAdminGuard)
   @Patch('actualizar/:idDatos')
   update(@Param('idDatos') idDatos: string, @Body() updateDatoDto: UpdateDatoDto) {
     return this.datosService.update(idDatos, updateDatoDto);
   }
 
+  @UseGuards(IsAdminGuard)
   @Delete('remove/:idDatos')
   remove(@Param('idDatos') idDatos: string) {
     return this.datosService.remove(idDatos);

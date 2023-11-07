@@ -1,28 +1,32 @@
-import { Module, OnModuleInit, MiddlewareConsumer, RequestMethod  } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { InjectModel, MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { RolesService } from './roles/roles.service';
 import { RolesModule } from './roles/roles.module';
-import { JwtModule } from '@nestjs/jwt';
-import { CheckDuplicateUsernameOrEmailMiddleware} from './middlewares/middlewares.middleware'
-import { User, UserDocument } from './user/user.schema';
-import { Model } from 'mongoose';
 import { DatosModule } from './datos/datos.module';
 import { PozosModule } from './pozos/pozos.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import env from './settings/env';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://127.0.0.1:27017/refsadb'),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [env]
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => ({
+        uri: config.get<string>("mongodb_uri")
+      })
+    }),
     UserModule,
     AuthModule,
     RolesModule,
-    JwtModule.register({
-      secret: 'fernet',
-      signOptions: { expiresIn: '1h' },
-    }),
     DatosModule,
     PozosModule,
   ],
@@ -31,12 +35,6 @@ import { PozosModule } from './pozos/pozos.module';
 })
 export class AppModule implements OnModuleInit {
   constructor(private roleService: RolesService) {}
-
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(CheckDuplicateUsernameOrEmailMiddleware)
-      .forRoutes({ path: 'auth/signup', method: RequestMethod.POST });
-  }
 
   async onModuleInit() {
     console.log('Conectado a Mongo');

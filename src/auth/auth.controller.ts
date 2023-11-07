@@ -1,13 +1,13 @@
-import { Controller, Post, Body, UseGuards, Header } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CheckDuplicateUsernameOrEmailMiddleware, TokenMiddleware } from 'src/middlewares/middlewares.middleware';
+import { IsSuperAdminGuard } from './is-superAdmin.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @UseGuards(IsSuperAdminGuard)
   @Post('signup')
-  @UseGuards(CheckDuplicateUsernameOrEmailMiddleware)
   async signup(@Body() body: { username: string; email: string; password: string; roles: string[] }) {
     return this.authService.signUp(body.username, body.email, body.password, body.roles);
   }

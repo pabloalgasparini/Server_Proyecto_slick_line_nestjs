@@ -3,6 +3,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Role, RoleDocument } from './entities/roles.entity';
 export const ROLES = ["operario", "superadmin", "admin"];
+export enum Roles {
+  OPERARIO = "operario",
+  SUPERADMIN = "superadmin",
+  ADMIN = "admin"
+}
 
 @Injectable()
 export class RolesService {

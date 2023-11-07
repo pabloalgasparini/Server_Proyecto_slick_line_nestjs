@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import * as jwt from 'jsonwebtoken';
+import { JwtService } from '@nestjs/jwt';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Role, RoleDocument } from '../roles/entities/roles.entity';
@@ -10,6 +10,7 @@ export class AuthService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Role.name) private roleModel: Model<RoleDocument>,
+    private jwtService: JwtService
   ) {}
 
   async signUp(username: string, email: string, password: string, roles: string[]) {
@@ -32,9 +33,7 @@ export class AuthService {
 
       const saveUser = await newUser.save();
 
-      const token = jwt.sign({ id: saveUser._id }, 'fernet', {
-        expiresIn: 86400,
-      });
+      const token = await this.jwtService.signAsync({ id: saveUser._id  });
 
       return { token };
     } catch (error) {
@@ -60,9 +59,7 @@ export class AuthService {
       throw new Error('Password incorrecto');
     }
 
-    const token = jwt.sign({ id: userFound._id }, 'fernet', {
-      expiresIn: 86400,
-    });
+    const token = await this.jwtService.signAsync({ id: userFound._id });
 
     return { token };
   }
