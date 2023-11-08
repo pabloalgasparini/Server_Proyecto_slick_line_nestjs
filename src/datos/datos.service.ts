@@ -1,5 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
-import { CreateDatoDto } from './dto/create-dato.dto';
+import { Injectable } from '@nestjs/common';
 import { UpdateDatoDto } from './dto/update-dato.dto';
 import { UserDocument } from 'src/user/user.schema';
 import { Model } from 'mongoose';
@@ -22,9 +21,10 @@ export class DatosService {
    Pressure: number, 
    Temperature: number,
    Depth: number,
-   Dp_Dz: number,
-   Dt_Dz: number,
-   Description: string
+   DpDz: number,
+   DtDz: number,
+   Description: string,
+   Density : number
    ){
    try {
     const newDatos = new this.datosModel()
@@ -37,9 +37,10 @@ export class DatosService {
       newDatos.Pressure = Pressure,
       newDatos.Temperature = Temperature,
       newDatos.Depth = Depth,
-      newDatos.Dp_Dz= Dp_Dz,
-      newDatos.Dt_Dz = Dt_Dz,
+      newDatos.DpDz= DpDz,
+      newDatos.DtDz = DtDz,
       newDatos.Description = Description,
+      newDatos.Density = Density,
       newDatos.Pozo = [pozo._id],
       newDatos.User = [user._id]
       newDatos.save()
@@ -89,6 +90,29 @@ export class DatosService {
     } catch (error) {
       console.log('Error al eliminar datos', error);
       throw error
+    }
+  }
+
+  async  jsonMap(datos: any, pozoId: string, userId: string) {
+    try {
+      const dataArray = Object.values(datos);
+      await Promise.all(dataArray.map(async (dato: any) => {
+        const newDatos = new this.datosModel({
+          Time: dato.Time,
+          Pressure: dato.Pressure ,
+          Temperature: dato.Temperature,
+          Depth: dato.Depth,
+          DpDz: dato.DpDz || null,
+          DtDz: dato.DtDz || null,
+          Description: dato.Stop,
+          Density: dato.Density,
+          Pozo: [pozoId],
+          User: [userId],
+        });
+        await newDatos.save();
+      }));
+    } catch (error) {
+      console.error(error);
     }
   }
 }

@@ -19,7 +19,8 @@ export class DatosController {
     Depth: number,
     Dp_Dz: number,
     Dt_Dz: number,
-    Description: string
+    Description: string,
+    Density: number,
   }) {
    return this.datosService.create(
     userId, 
@@ -30,7 +31,8 @@ export class DatosController {
     body.Depth,
     body.Dp_Dz,
     body.Dt_Dz,
-    body.Description
+    body.Description,
+    body.Density
     )
   }
 
@@ -55,4 +57,9 @@ export class DatosController {
   remove(@Param('idDatos') idDatos: string) {
     return this.datosService.remove(idDatos);
   }
+
+  @Post('json/:pozoId/:userId')
+jsonMap(@Param('pozoId') pozoId: string, @Param('userId') userId: string, @Body() datos: any) {
+  return this.datosService.jsonMap(datos, pozoId, userId); // Corregir aquí
+}
 }

@@ -16,20 +16,23 @@ export class Datos {
     @Prop({required: true})
     Pressure: number
 
-    @Prop({unique: true, required: true})
+    @Prop({ required: true})
     Temperature: number
 
-    @Prop({unique: true, required: true})
+    @Prop({ required: true})
     Depth: number
 
-    @Prop({unique: true, required: true})
-    Dp_Dz: number
+    @Prop({ required: true})
+    DpDz: number
 
-    @Prop({unique: true, required: true})
-    Dt_Dz: number
+    @Prop({ required: true})
+    DtDz: number
 
-    @Prop({unique: true, required: true})
+    @Prop({ required: true})
     Description: string
+
+    @Prop({ required: true})
+    Density: number
 
     @Prop([{ type: [{type: 'ObjectId', ref: 'Pozo'}] }])
     Pozo: PozoDocument[]; 
