@@ -45,6 +45,7 @@ export class UserController {
     return this.userService.remove(_id);
   }
 
+  @UseGuards(IsSuperAdminGuard)
   @Get('unUser/:id')
   findUser(@Param('id') id: string) {
     return this.userService.findUser(id)
