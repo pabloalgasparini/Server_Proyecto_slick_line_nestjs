@@ -44,4 +44,9 @@ export class UserController {
   remove(@Param('_id') _id: string) {
     return this.userService.remove(_id);
   }
+
+  @Get('unUser/:id')
+  findUser(@Param('id') id: string) {
+    return this.userService.findUser(id)
+}
 }

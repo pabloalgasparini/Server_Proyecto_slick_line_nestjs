@@ -33,6 +33,7 @@ export class PozosController {
     return this.pozosService.update(id, updatePozoDto);
   }
 
+  @UseGuards(IsAdminGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.pozosService.remove(id);
