@@ -32,7 +32,6 @@ export class DatosService {
     const pozo = await this.pozoModel.findById(pozoId)
 
     if(user && pozo){
-      console.log('pasa');
       newDatos.Time = Time,
       newDatos.Pressure = Pressure,
       newDatos.Temperature = Temperature,
