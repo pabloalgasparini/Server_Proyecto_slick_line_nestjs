@@ -7,7 +7,7 @@ import { UserDocument } from 'src/user/user.schema';
     versionKey: false,
 })
 export class Pozo {
-    @Prop({ unique: true, required: true })
+    @Prop({ required: true })
     Pozoname: string;
 
     @Prop([{ type: Types.ObjectId, ref: 'User' }])

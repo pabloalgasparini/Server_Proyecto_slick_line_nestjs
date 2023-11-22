@@ -5,7 +5,7 @@ import { RolesService } from './roles.service';
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
-  @Post('create-if-not-exist')
+  @Post() // ruta para crear un roll
   async createRolesIfNotExist(): Promise<string> {
     try {
       await this.rolesService.createRolesIfNotExist();
@@ -15,7 +15,7 @@ export class RolesController {
     }
   }
 
-  @Get('traer-roles')
+  @Get() // ruta para traer los roles
   async getAllRoles(): Promise<string[]> {
     const roles = await this.rolesService.getAllRoles();
     return roles;

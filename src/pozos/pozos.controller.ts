@@ -10,31 +10,31 @@ export class PozosController {
   constructor(private readonly pozosService: PozosService) {}
 
   @UseGuards(IsAdminGuard)
-  @Post(':userId')
+  @Post(':userId') // ruta para crear un pozo
   create(@Param('userId')userId:string,@Body() body:{name:string}) {
     return this.pozosService.create(userId,body.name);
   }
 
   
-  @Get('')
+  @Get() // ruta para traer todos los pozoa
   findAll() {
 
     return this.pozosService.findAll();
   }
 
-  @Get(':id')
+  @Get(':id') // ruta para traer un pozo
   findOne(@Param('id') id: string) {
     return this.pozosService.findOne(id);
   }
 
   @UseGuards(IsAdminGuard)
-  @Patch(':id')
+  @Patch(':id') // ruta para actualizar un pozo
   update(@Param('id') id: string, @Body() updatePozoDto: UpdatePozoDto) {
     return this.pozosService.update(id, updatePozoDto);
   }
 
   @UseGuards(IsAdminGuard)
-  @Delete(':id')
+  @Delete(':id') // ruta para borrar un pozo
   remove(@Param('id') id: string) {
     return this.pozosService.remove(id);
   }

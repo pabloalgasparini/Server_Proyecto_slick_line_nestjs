@@ -42,7 +42,10 @@ export class DatosService {
       newDatos.Density = Density,
       newDatos.Pozo = [pozo._id],
       newDatos.User = [user._id]
-      newDatos.save()
+      await newDatos.save()
+      console.log('Se Guardó correctamente');
+    }else {
+      return "no hay algo"
     }
     return newDatos
    } catch (error) {
